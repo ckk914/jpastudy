@@ -115,4 +115,27 @@ class ProductRepositoryTest {
 
         assertEquals(4,productList.size());
     }
+    @Test
+    @DisplayName("수정이다.")
+    void modifyTest() {
+        //given
+        Long id = 2L;
+        String newName = "청소기";
+        Product.Category newCategory = ELECTRONIC;
+        //when
+        Product product = productRepository.findById(id).orElse(null);
+        product.setName(newName);
+        product.setCategory(newCategory);
+
+        Product save = productRepository.save(product);
+
+        assertEquals(newName,save.getName());
+
+        //then
+        /*
+        *  jpa에서는 수정 메서드를 따로 제공하지 않습니다
+        * 단일 조회를 수행한 후 setter를 통해 값을 변경하고
+        * 다시 savegkaus insert 대신에 update 문이 나갑니다
+        * */
+    }
 }

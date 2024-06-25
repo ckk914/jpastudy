@@ -22,11 +22,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)  //마리아 디비 Identity  /다른거면 Sequence / 다른 것도 있는데 필요시에 ..
     @Column(name="proud_id")
     private Long id;          //pk
+
+    @Setter
     @Column(name="proud_nm",length=30, nullable = false)  // nullable = false : not null
     private String name; //상품명
     @Column(name="price")
     private int price;       //상품 가격
 
+    @Setter
     @Column(nullable = false)
     @Enumerated(EnumType.STRING )  //ORDINAL : 순차적인    왠만하면 String 으로 바꿔서 써라
     private Category category; // 상품 카테고리
