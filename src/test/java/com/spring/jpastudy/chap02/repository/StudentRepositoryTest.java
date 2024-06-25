@@ -76,6 +76,50 @@ class StudentRepositoryTest {
         System.out.println("\n\n\n\n");
     }
 
+    @Test
+    @DisplayName("도시 이름과 전공으로 학생을 조회")
+    void findByCityAndMajorTest() {
+        //given
+        String city = "제주도";
+        String major = "화학공학";
+        //when
+        List<Student> st = studentRepository.findByCityAndMajor(city, major);
+
+        System.out.println("\n\n\n\n");
+        System.out.println("students.get(0) = " + st.get(0));
+        System.out.println("\n\n\n\n");
+
+        //then
+    }
+    @Test
+    @DisplayName("전공이 공학 포함 학생들 조회")
+    void majorEndContainingTest() {
+        //given
+        String majorContaining ="공학";
+
+        //when
+        List<Student> students = studentRepository.findByMajorContaining(majorContaining);
+
+        System.out.println("\n\n\n\n");
+        students.forEach(System.out::println);
+        System.out.println("\n\n\n\n");
+        //then
+    }
+
+    @Test
+    @DisplayName("도시 또는 이름으로 학생을 조회")
+    void nativeSQLTest() {
+        //given
+        String name = "춘식이";
+        String city  = "제주도";
+        //when
+        List<Student> students = studentRepository.getStudentByNameOrCity2(name,city);
+
+        //then
+        System.out.println("\n\n\n\n");
+        students.forEach(System.out::println);
+        System.out.println("\n\n\n\n");
+    }
 
 
 }
