@@ -2,10 +2,33 @@
 server:
   port: 8282
 
+#??? ??? ??
 spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/jpastudy
     username: root
     password: mariadb
     driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    #DBMS Dialect(??) setting
+    database-platform: org.hibernate.dialect.MariaDB106Dialect
+    hibernate:
+      # ddl ?? ? ??? ???? ??
+      ddl-auto: create    # update? none?? ?? ??? ??? create ? ?? ??? ?? ??? ????!
+    properties:
+      hibernate:
+        format_Sql: true # SQL ?? ??? ??? ??
+    database: mysql
+
+    # ?? ?? ??~!
+    logging:
+      level:
+        root: info
+        com:
+          spring:
+            jpastudy: debug
+            org:
+              hibernate:
+                SQL: debug
+
 
