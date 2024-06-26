@@ -24,6 +24,8 @@ class ProductRepositoryTest {
 
     @Autowired
     ProductRepository productRepository;
+    //다른 것 실행전에 미리 넣고 시작함
+    // 미리 시작됨
     @BeforeEach
     void insertBeforeTest(){
         Product p1 = Product.builder()
@@ -80,6 +82,7 @@ class ProductRepositoryTest {
         //when
         productRepository.deleteById(id);
         //then
+        //orElse : 조회가 안되면 null 을 주겠다🌟
       Product foundProduct = productRepository.findById(id)
                 .orElse(null);
         assertNull(foundProduct);
