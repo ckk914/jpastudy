@@ -35,7 +35,7 @@ public class Idol {
         }
     }
 
-
+// 양방향 양쪽 변화를 일으켜야함~!
     public void changeGroup(Group group) {
         this.group = group;
         group.getIdols().add(this);
