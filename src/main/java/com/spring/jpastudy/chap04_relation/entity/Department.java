@@ -34,15 +34,19 @@ public class Department {
            단순히 읽기전용 (조회전용)으로만 사용하는 것이다.
         - mappedBy에는 상대방 엔터티에 @ManyToOne에 대응되는 필드명을 꼭 적어야 함
 
-     -cascade 타입
-      * PERSIST  :   부모가 갱신되면 자식도 같이 갱신된다.
-                             리스트에 자식을 추가 / 제거하면 -> DB에 반영됨
-      * REMOVE :   부모가 제거되면 자식도 같이 제거된다.!
-                             ON DELETE CASCADE
+        - CascadeType
+          * PERSIST : 부모가 갱신되면 자식도 같이 갱신된다.
+          - 부모의 리스트에 자식을 추가하거나 제거하면
+            데이터베이스에도 반영된다.
 
-      * ALL        :    위의 내용을 전부 포함
+          * REMOVE : 부모가 제거되면 자식도 같이 제거된다.
+          - ON DELETE CASCADE
+
+          * ALL : 위의 내용을 전부 포함
+
      */
-    @OneToMany(mappedBy = "department", orphanRemoval = true, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Employee> employees = new ArrayList<>();
 
     public void removeEmployee(Employee employee) {
@@ -50,9 +54,14 @@ public class Department {
         employee.setDepartment(null);
     }
 
-    public void addEmployee(Employee employee){
+    public void addEmployee(Employee employee) {
         this.employees.add(employee);
         employee.setDepartment(this);
     }
+
+
+
+
+
 
 }
