@@ -117,4 +117,16 @@ EmployeeRepository employeeRepository;
 
         //then
     }
+
+    @Test
+    @DisplayName("부서가 사라지면 사원들도 모두 삭제")
+    void cascadeRemoveTEST() {
+        //given
+        Department department = departmentRepository.findById(2L).orElseThrow();
+        //when
+//        departmentRepository.deleteById(department.getId());
+        //부서만 지우면 다 날라감~!         ㅣㅣ
+        departmentRepository.delete(department);
+        //then
+    }
 }
