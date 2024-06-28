@@ -5,9 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-//JpaRepo와 내가 만든 IdolCustomRepo 를 상속~!
-public interface IdolRepository extends JpaRepository<Idol,Long>,IdolCustomRepository {
+
+public interface IdolRepository
+        extends JpaRepository<Idol, Long>, IdolCustomRepository {
+
     @Query("SELECT i FROM Idol i ORDER BY i.age DESC")
     List<Idol> findAllBySorted();
+
+
 
 }
