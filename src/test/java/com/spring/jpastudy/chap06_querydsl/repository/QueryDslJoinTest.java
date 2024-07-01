@@ -107,19 +107,22 @@ class QueryDslJoinTest {
         //given
 
         //when
+        //Tuple이나 dto로 받아야함
         List<Tuple> idolList = factory
-                .select(idol, group)
+                .select(idol, group)            //여기가 2개이면, tuple에서 get 할 것이 2개가 된다
                 .from(idol)
+                //여기서 조인은 따로 on 절을 쓰지 않는다.
                 // 첫번째 파라미터는 from절에 있는 엔터티의 연관 객체
+                //   1번 파라미터     : on절에 쓸 것을 적는다~!🌟
                 // 두번째 파라미터는 실제로 조인할 엔터티
-                .innerJoin(idol.group, group)
+                .innerJoin(idol.group, group)  //그룹 없는 애들은 출력 x
                 .fetch();
 
         //then
         System.out.println("\n\n");
         for (Tuple tuple : idolList) {
-            Idol foundIdol = tuple.get(idol);
-            Group foundGroup = tuple.get(group);
+            Idol foundIdol = tuple.get(idol);                   //
+            Group foundGroup = tuple.get(group);     //
             System.out.println(foundIdol);
             System.out.println(foundGroup);
         }
@@ -134,9 +137,9 @@ class QueryDslJoinTest {
 
         //when
         List<Tuple> result = factory
-                .select(idol, group)
+                .select(idol, group) //아이돌, 그룹
                 .from(idol)
-                .leftJoin(idol.group, group)
+                .leftJoin(idol.group, group)  //아이돌의 그룹과 q그룹의 그룹
                 .fetch();
 
         //then
@@ -147,7 +150,8 @@ class QueryDslJoinTest {
 
             System.out.println("\nIdol: " + i.getIdolName()
                     + ", Group: "
-                    + (g != null ? g.getGroupName() : "솔로가수"));
+                    + (g != null ? g.getGroupName() : "솔로가수")); //left조인이라 처리
+                                                                                                //NVL처리 (널이면 바꿔라)
         }
     }
 
@@ -162,10 +166,10 @@ void pratice1Test() {
     String groupName = "아이브";
     //when
     List<Tuple> result = factory
-            .select(idol, group)
+            .select(idol, group)                            //아이돌과 그룹
             .from(idol)
-            .innerJoin(idol.group, group)
-            .where(group.groupName.eq(groupName))
+            .innerJoin(idol.group, group)           //조인조건
+            .where(group.groupName.eq(groupName))   //조인 후 필터링
             .fetch();
 
     //then
@@ -194,13 +198,14 @@ void practice2Test() {
             .select(group.groupName, idol.age.avg())
             .from(idol)
             .innerJoin(idol.group, group)
-            .groupBy(group.id)
-            .having(idol.age.avg().goe(22))
+            .groupBy(group.id)                      //그룹별
+            .having(idol.age.avg().goe(22)) //그룹 나누고 조건
             .fetch();
 
     //then
     assertFalse(result.isEmpty());
     result.forEach(tuple -> {
+        //select에 있던 것이  tuple.get
         String groupName = tuple.get(group.groupName);
         double averageAge = tuple.get(idol.age.avg());
         System.out.printf("\n# 그룹명: %s, 평균나이: %.2f\n\n"
@@ -231,8 +236,8 @@ void practice3Test() {
     List<Tuple> result = factory
             .select(idol, album)
             .from(idol)
-            .innerJoin(idol.group, group)        //그룹과 아이돌 inner Join
-            .innerJoin(group.albums, album)   //그룹과 앨범 inner Join
+            .innerJoin(idol.group, group)        //1. 그룹과 아이돌 inner Join
+            .innerJoin(group.albums, album)   //2. 그룹과 앨범 inner Join
             .where(album.releaseYear.eq(year))
             .fetch();
 

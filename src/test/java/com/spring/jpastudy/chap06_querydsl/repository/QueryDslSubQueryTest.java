@@ -110,12 +110,12 @@ void subQueryTest1() {
     List<Idol> result = factory
             .select(idol)
             .from(idol)
-            .where(idol.age.gt(
+            .where(idol.age.gt(             //비교대상1
                     JPAExpressions     //"서브 쿼리의 시작"
-                            .select(idol.age.avg())
+                            .select(idol.age.avg())   //비교대상2
                             .from(idol)
-                            .innerJoin(idol.group,group)
-                            .where(group.groupName.eq("르세라핌")))
+                            .innerJoin(idol.group,group)                                    //그룹쓰려면 이너조인해야함 ⭐️
+                            .where(group.groupName.eq("르세라핌"))) //특정 조건
                     .and(idol.group.isNotNull())
             )
             .fetch();
