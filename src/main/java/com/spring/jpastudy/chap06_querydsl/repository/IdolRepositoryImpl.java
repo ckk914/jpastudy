@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,22 @@ import static com.spring.jpastudy.chap06_querydsl.entity.QIdol.*;
 public class IdolRepositoryImpl implements IdolCustomRepository {
 
     private final JdbcTemplate template;
+    private final EntityManager em;
 
     private final JPAQueryFactory factory;
 
+
+    //native query 사용
+    public  void nativequery123(){
+        String sql ="SELECT idol_id,NVL(group_id, '솔로가수') AS g_id "
+                + "from tbl_idol i "+
+                "left join tbl_group g "+
+                "ON I.group_id = G.group_id";
+
+        List resultList = em.createQuery(sql)    //dto 있으면 그걸로 넣고 쓰면 됨~!
+                .getResultList();                                //추가 파라미터 넣을거 있으면 .setParameter
+
+    }
     @Override
     public Page<Idol> foundAllByPaging(Pageable pageable) {
 
