@@ -231,8 +231,8 @@ void practice3Test() {
     List<Tuple> result = factory
             .select(idol, album)
             .from(idol)
-            .innerJoin(idol.group, group)
-            .innerJoin(group.albums, album)
+            .innerJoin(idol.group, group)        //그룹과 아이돌 inner Join
+            .innerJoin(group.albums, album)   //그룹과 앨범 inner Join
             .where(album.releaseYear.eq(year))
             .fetch();
 
