@@ -8,6 +8,7 @@ public class JpastudyApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpastudyApplication.class, args);
+		System.out.println("🏆🏆🏆🏆🏆");
 	}
 
 }
