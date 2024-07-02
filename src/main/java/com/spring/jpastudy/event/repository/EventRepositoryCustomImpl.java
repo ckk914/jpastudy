@@ -16,7 +16,7 @@ import static com.spring.jpastudy.event.entity.QEvent.*;
 @RequiredArgsConstructor
 @Slf4j
 public class EventRepositoryCustomImpl implements EventRepositoryCustom {
-
+//여기서 커스텀 구현!@
     private final JPAQueryFactory factory;
 
     @Override
@@ -28,7 +28,7 @@ public class EventRepositoryCustomImpl implements EventRepositoryCustom {
                 ;
     }
 
-    // 정렬 조건을 처리하는 메서드
+    // 정렬 조건을 처리하는 메서드⭐️
     private OrderSpecifier<?> specifier(String sort) {
         switch (sort) {
             case "date":
