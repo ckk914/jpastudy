@@ -1,6 +1,7 @@
 package com.spring.jpastudy.event.controller;
 
 import com.spring.jpastudy.event.dto.request.EventSaveDto;
+import com.spring.jpastudy.event.dto.response.EventDetailDto;
 import com.spring.jpastudy.event.entity.Event;
 import com.spring.jpastudy.event.service.EventService;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +22,15 @@ public class EventController {
 
     // 전체 조회 요청
     @GetMapping
-    public ResponseEntity<?> getList(String sort) {
-        List<Event> events = eventService.getEvents(sort);
+    public ResponseEntity<?> getList(@RequestParam(required = false,defaultValue = "date") String sort) {
+        List<EventDetailDto> events = eventService.getEvents(sort);
         return ResponseEntity.ok().body(events);
     }
 
     // 등록 요청
     @PostMapping
     public ResponseEntity<?> register(@RequestBody EventSaveDto dto) {
-        List<Event> events = eventService.saveEvent(dto);
+        List<EventDetailDto> events = eventService.saveEvent(dto);
         return ResponseEntity.ok().body(events);
     }
 
