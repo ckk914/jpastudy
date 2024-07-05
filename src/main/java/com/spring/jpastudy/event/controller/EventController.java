@@ -56,6 +56,23 @@ public class EventController {
         System.out.println("eventDetail = " + eventDetail);
         return ResponseEntity.ok().body(eventDetail);
     }
+    //삭제 요청
+    @DeleteMapping("/{eventId}")
+    public ResponseEntity<?> delete(@PathVariable Long eventId){
+        eventService.deleteEvent(eventId);
 
+        return ResponseEntity.ok().body("event deleted!");
+    }
+
+    //수정 요청
+    @PatchMapping("/{eventId}")
+    public ResponseEntity<?> modify(
+            @RequestBody EventSaveDto dto,
+            @PathVariable Long eventId
+            ) {
+        eventService.modifyEvent(dto,eventId);
+
+        return ResponseEntity.ok().body("event modifyed!!");
+    }
 
 }
