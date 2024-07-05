@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/events")
@@ -22,23 +23,29 @@ public class EventController {
     private final EventService eventService;
 
     // 전체 조회 요청
-    @GetMapping
+    @GetMapping("/page/{pageNo}")
     public ResponseEntity<?> getList(
-            @RequestParam(required = false) String sort) {
+            @RequestParam(required = false) String sort,
+            @PathVariable int pageNo
+    ) throws InterruptedException {
 
         if (sort == null) {
             return ResponseEntity.badRequest().body("sort 파라미터가 없습니다.");
         }
 
-        List<EventDetailDto> events = eventService.getEvents(sort);
+        Map<String, Object> events = eventService.getEvents(pageNo, sort);
+
+        // 의도적으로 2초간의 로딩을 설정
+        Thread.sleep(2000);
+
         return ResponseEntity.ok().body(events);
     }
 
     // 등록 요청
     @PostMapping
     public ResponseEntity<?> register(@RequestBody EventSaveDto dto) {
-        List<EventDetailDto> events = eventService.saveEvent(dto);
-        return ResponseEntity.ok().body(events);
+        eventService.saveEvent(dto);
+        return ResponseEntity.ok().body("event saved!");
     }
 
     // 단일 조회 요청
@@ -53,26 +60,28 @@ public class EventController {
 
         EventOneDto eventDetail = eventService.getEventDetail(eventId);
 
-        System.out.println("eventDetail = " + eventDetail);
         return ResponseEntity.ok().body(eventDetail);
     }
-    //삭제 요청
+
+    // 삭제 요청
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<?> delete(@PathVariable Long eventId){
+    public ResponseEntity<?> delete(@PathVariable Long eventId) {
+
         eventService.deleteEvent(eventId);
 
         return ResponseEntity.ok().body("event deleted!");
     }
 
-    //수정 요청
+    // 수정 요청
     @PatchMapping("/{eventId}")
     public ResponseEntity<?> modify(
             @RequestBody EventSaveDto dto,
             @PathVariable Long eventId
-            ) {
-        eventService.modifyEvent(dto,eventId);
+    ) {
+        eventService.modifyEvent(dto, eventId);
 
-        return ResponseEntity.ok().body("event modifyed!!");
+        return ResponseEntity.ok().body("event modified!!");
     }
+
 
 }
